@@ -1,17 +1,19 @@
 # About
 
-Little test to slim down .NET core Docker images.
+Little test to slim down .NET core Docker images and build for ARM64.
 
 # Building and running
 
-docker build -t test-normal -f Dockerfile-normal .
+## Normal x64
+- docker build -t test-normal -f Dockerfile-normal .
+- docker run -it test-normal
 
-docker run -it test-normal
+## Alpine x64
+- docker build -t test-alpine -f Dockerfile-alpine .
+- docker run -it test-alpine  
 
-docker build -t test-alpine -f Dockerfile-alpine .
-
-docker run -it test-alpine  
-
-docker buildx build --platform=linux/arm64 -t test-alpine-arm -f Dockerfile-alpine-arm .
-
-docker run -it test-alpine-arm  
+## Alpine arm64
+- docker buildx create --name mybuilder --use
+- docker buildx inspect --bootstrap
+- docker buildx build --platform=linux/arm64 -t test-alpine-arm -f Dockerfile-alpine-arm . --load
+- docker run --platform=linux/arm64 -it test-alpine-arm
